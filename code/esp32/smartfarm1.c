@@ -7,13 +7,12 @@
 #include <DHT_U.h>               //universal  dht    
 #define DHTTYPE    DHT11         // DHT 22 (AM2302)
 #define ESP_ID        "001"
-#define WIFI_STA_NAME "SIAM Hi -Speed"
-#define WIFI_STA_PASS ""
-//#define WIFI_STA_NAME "DSEL208_2G"
-//#define WIFI_STA_PASS "piglet1234"
-#define MQTT_SERVER   "smartfarm.eazycloud.xyz"   // mqtt broker @ Digital System Engineering Laboratory,  Faculty of Engineering,  Siam university
-#define MQTT_PORT     1883
-#define MQTT_USERNAME "dsel0"         // Authenticated by usernnname & password
+//#define WIFI_STA_NAME "SIAM Hi -Speed"
+#define WIFI_STA_NAME "DSEL208_2G"   // เปลี่ยน WIFI_STA_NAME และ WIFI_STA_PASS ให้ตรงกับ SSID ของ wifi ที่จะเกาะ
+#define WIFI_STA_PASS "piglet1234"   //
+#define MQTT_SERVER   "smartdrive.eazycloud.xyz"   // เปลี่ยนข้อมูลให้ชี้ไปที่ mqtt broker ของท่าน
+#define MQTT_PORT     1883		// เลือกพอร์ตของ MQTT Broker   1883 สำหรับ unsecure connected และ 8883 สำหรับ secure connected
+#define MQTT_USERNAME "dsel0"         // เปลี่ยน username และ password สำหรับเข้าใช้งาน mqtt ให้ตรงกับของท่าน
 #define MQTT_PASSWORD "piglet1234"    //
 #define MQTT_NAME     "ESP32.xx.yyy"  // เวลาใช้งานให้ใส่ตัวเลขแทน xx ด้วยหมายเลขลำดับรายชื่อของท่าน และ  yyy ด้วยหมายเลขบอร์ด เพื่อป้องกันปัญหาชื่อซ้ำกัน
 #define LED_PIN 2
@@ -200,8 +199,8 @@ case INI: {
             Serial.println("Initializing");
             digitalWrite(CH1_PIN,ActiveLow[CH1]);
             digitalWrite(CH2_PIN,ActiveLow[CH2]);
-            digitalWrite(CH1_PIN,ActiveLow[CH3]);
-            digitalWrite(CH2_PIN,ActiveLow[CH4]);
+            digitalWrite(CH3_PIN,ActiveLow[CH3]);
+            digitalWrite(CH4_PIN,ActiveLow[CH4]);
             Serial.print(" CH1:");
             Serial.print(ActiveLow[CH1]);
             Serial.print(", CH2:");
@@ -346,7 +345,5 @@ case PUBLISH: {
                 break;}
             }
             mqtt.loop();
-
-
 
 }
