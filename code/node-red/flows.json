@@ -1182,7 +1182,7 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{\"id\":\"002\",\"humi\":30,\"temp\":24,\"mois\":1130,\"ligh\":32768,\"ch1\":\"off\",\"ch2\":\"off\",\"ch3\":\"off\",\"ch4\":\"off\"}",
+        "payload": "{\"id\":\"002\",\"humi\":30,\"temp\":24,\"mois\":1130,\"ligh\":32767,\"ch1\":\"off\",\"ch2\":\"off\",\"ch3\":\"off\",\"ch4\":\"off\"}",
         "payloadType": "json",
         "x": 90,
         "y": 560,
@@ -1308,37 +1308,6 @@
         ]
     },
     {
-        "id": "f903ba89b232bbee",
-        "type": "ui_led",
-        "z": "14e56c35a5953b22",
-        "order": 5,
-        "group": "113ae86234f6470e",
-        "width": 0,
-        "height": 0,
-        "label": "CH1",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "CH1",
-        "x": 590,
-        "y": 860,
-        "wires": []
-    },
-    {
         "id": "0fbb008089be3f04",
         "type": "mqtt in",
         "z": "14e56c35a5953b22",
@@ -1368,42 +1337,11 @@
         ]
     },
     {
-        "id": "2ffefcecde853728",
-        "type": "ui_led",
-        "z": "14e56c35a5953b22",
-        "order": 6,
-        "group": "113ae86234f6470e",
-        "width": 0,
-        "height": 0,
-        "label": "CH2",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "CH2",
-        "x": 590,
-        "y": 900,
-        "wires": []
-    },
-    {
         "id": "432085ccd39ec486",
         "type": "function",
         "z": "14e56c35a5953b22",
         "name": "ch1",
-        "func": "var q=msg.payload\nvar led\nif (q.id==\"002\") {\nif (q.ch1==\"on\") \n    {led=true\n    msg.payload = led\n    return msg;}\nif (q.ch1==\"off\") {\n    led = false\n    msg.payload = led\n    return msg;}\n}\n",
+        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch1 == \"on\") {\n        led = 1\n        msg.payload = led\n        return msg;\n    }\n    if (q.ch1 == \"off\") {\n        led = 0\n        msg.payload = led\n        return msg;\n    }\n\n\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1413,79 +1351,17 @@
         "y": 840,
         "wires": [
             [
-                "f903ba89b232bbee",
-                "03ea7b952a1cab42"
+                "03ea7b952a1cab42",
+                "b3ad6e5779c93539"
             ]
         ]
-    },
-    {
-        "id": "6fc60534041fd256",
-        "type": "ui_led",
-        "z": "14e56c35a5953b22",
-        "order": 7,
-        "group": "113ae86234f6470e",
-        "width": 0,
-        "height": 0,
-        "label": "CH3",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "CH3",
-        "x": 590,
-        "y": 940,
-        "wires": []
-    },
-    {
-        "id": "0a3a346c55b182ad",
-        "type": "ui_led",
-        "z": "14e56c35a5953b22",
-        "order": 8,
-        "group": "113ae86234f6470e",
-        "width": 0,
-        "height": 0,
-        "label": "CH4",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "CH4",
-        "x": 590,
-        "y": 980,
-        "wires": []
     },
     {
         "id": "dd064acff5c71fc8",
         "type": "function",
         "z": "14e56c35a5953b22",
         "name": "ch2",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch2 == \"on\") { \n        led = true\n        msg.payload = led\n        return msg; }\n    if (q.ch2 == \"off\") { \n        led = false\n        msg.payload = led\n        return msg; }\n}\n",
+        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch2 == \"on\") {\n        led = 1\n        msg.payload = led\n        return msg;\n    }\n    if (q.ch2 == \"off\") {\n        led = 0\n        msg.payload = led\n        return msg;\n    }\n\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1495,8 +1371,8 @@
         "y": 880,
         "wires": [
             [
-                "2ffefcecde853728",
-                "1453708e0a870545"
+                "1453708e0a870545",
+                "613e39c991756e34"
             ]
         ]
     },
@@ -1505,7 +1381,7 @@
         "type": "function",
         "z": "14e56c35a5953b22",
         "name": "ch3",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch3 == \"on\") {\n        led = true \n        msg.payload = led\n        return msg;}\n    if (q.ch3 == \"off\") { \n        led = false\n        msg.payload = led\n        return msg;}\n}\n",
+        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch3 == \"on\") {\n        led = 1\n        msg.payload = led\n        return msg;\n    }\n    if (q.ch3 == \"off\") {\n        led = 0\n        msg.payload = led\n        return msg;\n    }\n\n\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1515,8 +1391,8 @@
         "y": 920,
         "wires": [
             [
-                "6fc60534041fd256",
-                "9f568530bb2368ad"
+                "9f568530bb2368ad",
+                "2b5075686c9fe38f"
             ]
         ]
     },
@@ -1525,7 +1401,7 @@
         "type": "function",
         "z": "14e56c35a5953b22",
         "name": "ch4",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch4 == \"on\") {\n        led = true \n        msg.payload = led\n        return msg;}\n    if (q.ch4 == \"off\") {\n        led = false\n        msg.payload = led\n        return msg;\n     }\n}\n",
+        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch4 == \"on\") {\n        led = 1\n        msg.payload = led\n        return msg;\n    }\n    if (q.ch4 == \"off\") {\n        led = 0\n        msg.payload = led\n        return msg;\n    }\n\n\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1535,8 +1411,8 @@
         "y": 960,
         "wires": [
             [
-                "0a3a346c55b182ad",
-                "50cac09c5c9092e1"
+                "50cac09c5c9092e1",
+                "88ca79de6d3a2fba"
             ]
         ]
     },
@@ -4262,6 +4138,130 @@
         ]
     },
     {
+        "id": "b3ad6e5779c93539",
+        "type": "ui_led",
+        "z": "14e56c35a5953b22",
+        "order": 6,
+        "group": "113ae86234f6470e",
+        "width": 0,
+        "height": 0,
+        "label": "CH1",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "0",
+                "valueType": "num"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "CH1",
+        "x": 610,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "613e39c991756e34",
+        "type": "ui_led",
+        "z": "14e56c35a5953b22",
+        "order": 7,
+        "group": "113ae86234f6470e",
+        "width": 0,
+        "height": 0,
+        "label": "CH2",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "CH2",
+        "x": 610,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "2b5075686c9fe38f",
+        "type": "ui_led",
+        "z": "14e56c35a5953b22",
+        "order": 8,
+        "group": "113ae86234f6470e",
+        "width": 0,
+        "height": 0,
+        "label": "CH3",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "CH3",
+        "x": 610,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "88ca79de6d3a2fba",
+        "type": "ui_led",
+        "z": "14e56c35a5953b22",
+        "order": 9,
+        "group": "113ae86234f6470e",
+        "width": 0,
+        "height": 0,
+        "label": "CH4",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "CH4",
+        "x": 610,
+        "y": 980,
+        "wires": []
+    },
+    {
         "id": "e588b258ec349fa3",
         "type": "ui_gauge",
         "z": "04b4f13d99be7319",
@@ -4546,7 +4546,7 @@
         "correl": "",
         "expiry": "",
         "broker": "f21c4075976f759e",
-        "x": 1010,
+        "x": 990,
         "y": 420,
         "wires": []
     },
@@ -4836,7 +4836,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "humi",
-        "func": "var q=msg.payload\nif (q.id == \"002\") {\n    msg.payload=q.humi\n    return msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.humi\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4898,7 +4898,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "temp",
-        "func": "var q=msg.payload\nif (q.id == \"002\") {\nmsg.payload=q.temp\nreturn msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.temp\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4944,7 +4944,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "mois",
-        "func": "var data=msg.payload\nif (data.id == \"002\") {\n    msg.payload=data.mois\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.mois\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -4990,7 +4990,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "ligh",
-        "func": "var data=msg.payload\nif (data.id == \"002\") {\n    msg.payload=data.ligh\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.ligh\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5003,37 +5003,6 @@
                 "e084f1f7a7b3c256"
             ]
         ]
-    },
-    {
-        "id": "a6fe1bf48e241745",
-        "type": "ui_led",
-        "z": "04b4f13d99be7319",
-        "order": 5,
-        "group": "b59e207189ceee8f",
-        "width": 0,
-        "height": 0,
-        "label": "Pump",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "",
-        "x": 770,
-        "y": 900,
-        "wires": []
     },
     {
         "id": "99f02e3230cfa766",
@@ -5060,7 +5029,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "Pump Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch1 !=null) {\n        led = q.ch1\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch1 != null) {\n    if (q.ch1 == \"1\") led = true\n    if (q.ch1 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5070,47 +5039,16 @@
         "y": 900,
         "wires": [
             [
-                "a6fe1bf48e241745"
+                "64db2b82aedf188f"
             ]
         ]
-    },
-    {
-        "id": "0d74070baf7a25bd",
-        "type": "ui_led",
-        "z": "04b4f13d99be7319",
-        "order": 6,
-        "group": "b59e207189ceee8f",
-        "width": 0,
-        "height": 0,
-        "label": "Fan",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "",
-        "x": 770,
-        "y": 940,
-        "wires": []
     },
     {
         "id": "4ce92be6e3b0f87e",
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH2 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch2 !=null) {\n        led = q.ch2\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch2 != null) {\n    if (q.ch2 == \"1\") led = true\n    if (q.ch2 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5120,47 +5058,16 @@
         "y": 940,
         "wires": [
             [
-                "0d74070baf7a25bd"
+                "3d872db01ab3ecb8"
             ]
         ]
-    },
-    {
-        "id": "d1f33934d0926428",
-        "type": "ui_led",
-        "z": "04b4f13d99be7319",
-        "order": 7,
-        "group": "b59e207189ceee8f",
-        "width": 0,
-        "height": 0,
-        "label": "CH3",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "",
-        "x": 770,
-        "y": 980,
-        "wires": []
     },
     {
         "id": "60195fa791059085",
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH3 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch3 !=null) {\n        led = q.ch3\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\n\nif (q.ch3 != null) {\n    if (q.ch3 == \"1\") led = true\n    if (q.ch3 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5170,47 +5077,16 @@
         "y": 980,
         "wires": [
             [
-                "d1f33934d0926428"
+                "bdfb9b7531ea2e76"
             ]
         ]
-    },
-    {
-        "id": "c661b18997fc2f09",
-        "type": "ui_led",
-        "z": "04b4f13d99be7319",
-        "order": 8,
-        "group": "b59e207189ceee8f",
-        "width": 0,
-        "height": 0,
-        "label": "CH4",
-        "labelPlacement": "left",
-        "labelAlignment": "left",
-        "colorForValue": [
-            {
-                "color": "#ff0000",
-                "value": "false",
-                "valueType": "bool"
-            },
-            {
-                "color": "#008000",
-                "value": "true",
-                "valueType": "bool"
-            }
-        ],
-        "allowColorForValueInMessage": false,
-        "shape": "circle",
-        "showGlow": true,
-        "name": "",
-        "x": 770,
-        "y": 1020,
-        "wires": []
     },
     {
         "id": "1fc8bc0a9e2e646b",
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH4 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"002\") {\n    if (q.ch4!=null) {\n        led = q.ch4\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch4 != null) {\n    if (q.ch4 == \"1\") led = true\n    if (q.ch4 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5220,7 +5096,7 @@
         "y": 1020,
         "wires": [
             [
-                "c661b18997fc2f09"
+                "f6d7009fc9a5c536"
             ]
         ]
     },
@@ -5453,7 +5329,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "humi",
-        "func": "var q=msg.payload\nif (q.id == \"003\") {\n    msg.payload=q.humi\n    return msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.humi\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5515,7 +5391,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "temp",
-        "func": "var q=msg.payload\nif (q.id == \"003\") {\nmsg.payload=q.temp\nreturn msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.temp\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5561,7 +5437,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "mois",
-        "func": "var data=msg.payload\nif (data.id == \"003\") {\n    msg.payload=data.mois\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.mois\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5607,7 +5483,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "ligh",
-        "func": "var data=msg.payload\nif (data.id == \"003\") {\n    msg.payload=data.ligh\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.ligh\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5677,7 +5553,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "Pump Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"003\") {\n    if (q.ch1 !=null) {\n        led = q.ch1\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch1 != null) {\n    if (q.ch1 == \"1\") led = true\n    if (q.ch1 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5727,7 +5603,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH2 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"003\") {\n    if (q.ch2 !=null) {\n        led = q.ch2\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch2 != null) {\n    if (q.ch2 == \"1\") led = true\n    if (q.ch2 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5777,7 +5653,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH3 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"003\") {\n    if (q.ch3 !=null) {\n        led = q.ch3\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\n\nif (q.ch3 != null) {\n    if (q.ch3 == \"1\") led = true\n    if (q.ch3 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -5827,7 +5703,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH4 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"003\") {\n    if (q.ch4!=null) {\n        led = q.ch4\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch4 != null) {\n    if (q.ch4 == \"1\") led = true\n    if (q.ch4 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6031,7 +5907,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "humi",
-        "func": "var q=msg.payload\nif (q.id == \"004\") {\n    msg.payload=q.humi\n    return msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.humi\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6093,7 +5969,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "temp",
-        "func": "var q=msg.payload\nif (q.id == \"004\") {\nmsg.payload=q.temp\nreturn msg;\n}",
+        "func": "var q=msg.payload\n\nmsg.payload = q.temp\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6139,7 +6015,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "mois",
-        "func": "var data=msg.payload\nif (data.id == \"004\") {\n    msg.payload=data.mois\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.mois\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6185,7 +6061,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "ligh",
-        "func": "var data=msg.payload\nif (data.id == \"004\") {\n    msg.payload=data.ligh\n    return msg;\n}",
+        "func": "var data=msg.payload\n\nmsg.payload = data.ligh\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6255,7 +6131,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "Pump Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"004\") {\n    if (q.ch1 !=null) {\n        led = q.ch1\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch1 != null) {\n    if (q.ch1 == \"1\") led = true\n    if (q.ch1 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6305,7 +6181,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH2 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"004\") {\n    if (q.ch2 !=null) {\n        led = q.ch2\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch2 != null) {\n    if (q.ch2 == \"1\") led = true\n    if (q.ch2 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6355,7 +6231,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH3 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"004\") {\n    if (q.ch3 !=null) {\n        led = q.ch3\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\n\nif (q.ch3 != null) {\n    if (q.ch3 == \"1\") led = true\n    if (q.ch3 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6405,7 +6281,7 @@
         "type": "function",
         "z": "04b4f13d99be7319",
         "name": "CH4 Indicator",
-        "func": "var q = msg.payload\nvar led\nif (q.id == \"004\") {\n    if (q.ch4!=null) {\n        led = q.ch4\n        msg.payload = led\n        return msg;\n    }\n    \n}",
+        "func": "var q = msg.payload\nvar led\nif (q.ch4 != null) {\n    if (q.ch4 == \"1\") led = true\n    if (q.ch4 == \"0\") led = false\n    msg.payload = led\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -6789,8 +6665,8 @@
         "correl": "",
         "expiry": "",
         "broker": "f21c4075976f759e",
-        "x": 850,
-        "y": 1400,
+        "x": 990,
+        "y": 1360,
         "wires": []
     },
     {
@@ -7895,7 +7771,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 900,
-        "y": 580,
+        "y": 560,
         "wires": [
             [
                 "060ea4d2860e901e"
@@ -7920,7 +7796,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 900,
-        "y": 700,
+        "y": 740,
         "wires": [
             [
                 "480e8c9e0bc30bda"
@@ -8021,7 +7897,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 900,
-        "y": 620,
+        "y": 600,
         "wires": [
             [
                 "060ea4d2860e901e"
@@ -8046,10 +7922,542 @@
         "payload": "",
         "payloadType": "date",
         "x": 900,
-        "y": 740,
+        "y": 780,
         "wires": [
             [
                 "480e8c9e0bc30bda"
+            ]
+        ]
+    },
+    {
+        "id": "47a32470d38d9138",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 9:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 09 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 900,
+        "y": 640,
+        "wires": [
+            [
+                "060ea4d2860e901e"
+            ]
+        ]
+    },
+    {
+        "id": "8f9e898a9a7a6410",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 11:35",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "35 11 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 900,
+        "y": 820,
+        "wires": [
+            [
+                "480e8c9e0bc30bda"
+            ]
+        ]
+    },
+    {
+        "id": "ba725f103f4c2443",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 14:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 14 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 880,
+        "y": 680,
+        "wires": [
+            [
+                "060ea4d2860e901e"
+            ]
+        ]
+    },
+    {
+        "id": "1e44e9e43ee45dfd",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 14:15",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "15 14 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 960,
+        "y": 880,
+        "wires": [
+            [
+                "480e8c9e0bc30bda"
+            ]
+        ]
+    },
+    {
+        "id": "64db2b82aedf188f",
+        "type": "ui_led",
+        "z": "04b4f13d99be7319",
+        "order": 5,
+        "group": "b59e207189ceee8f",
+        "width": 0,
+        "height": 0,
+        "label": "Pump",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "led1",
+        "x": 770,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "3d872db01ab3ecb8",
+        "type": "ui_led",
+        "z": "04b4f13d99be7319",
+        "order": 6,
+        "group": "b59e207189ceee8f",
+        "width": 0,
+        "height": 0,
+        "label": "Fan",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "led2",
+        "x": 770,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "bdfb9b7531ea2e76",
+        "type": "ui_led",
+        "z": "04b4f13d99be7319",
+        "order": 7,
+        "group": "b59e207189ceee8f",
+        "width": 0,
+        "height": 0,
+        "label": "CH3",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "led3",
+        "x": 770,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "f6d7009fc9a5c536",
+        "type": "ui_led",
+        "z": "04b4f13d99be7319",
+        "order": 8,
+        "group": "b59e207189ceee8f",
+        "width": 0,
+        "height": 0,
+        "label": "CH4",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "led4",
+        "x": 770,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "9c5c5cb197dccb73",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 7:00",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 07 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1440,
+        "wires": [
+            [
+                "8ec866e77e6ebf1f"
+            ]
+        ]
+    },
+    {
+        "id": "b8dc8136155cc62b",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 7:30",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "30 07 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1620,
+        "wires": [
+            [
+                "2a617b542bf1d588"
+            ]
+        ]
+    },
+    {
+        "id": "1e506e40ac882f51",
+        "type": "function",
+        "z": "04b4f13d99be7319",
+        "name": "ch3 on",
+        "func": "var data = msg.payload\nvar mode = global.get('mode002')\n\nif (mode == true) {\n    msg.payload = Object.assign(msg.payload, { \"ch3\": \"on\" });\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1330,
+        "y": 1480,
+        "wires": [
+            [
+                "5a05a4b8ba41875e"
+            ]
+        ]
+    },
+    {
+        "id": "8ec866e77e6ebf1f",
+        "type": "function",
+        "z": "04b4f13d99be7319",
+        "name": "id002",
+        "func": "msg.payload={\"id\":\"002\"}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 1480,
+        "wires": [
+            [
+                "1e506e40ac882f51"
+            ]
+        ]
+    },
+    {
+        "id": "225aeefde8a096f8",
+        "type": "function",
+        "z": "04b4f13d99be7319",
+        "name": "ch3 off",
+        "func": "var data = msg.payload\nvar mode = global.get('mode002')\nif (mode == true) {\n    msg.payload = Object.assign(msg.payload, { \"ch3\": \"off\" } );\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1330,
+        "y": 1580,
+        "wires": [
+            [
+                "5a05a4b8ba41875e"
+            ]
+        ]
+    },
+    {
+        "id": "2a617b542bf1d588",
+        "type": "function",
+        "z": "04b4f13d99be7319",
+        "name": "id002",
+        "func": "msg.payload={\"id\":\"002\"}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 1580,
+        "wires": [
+            [
+                "225aeefde8a096f8"
+            ]
+        ]
+    },
+    {
+        "id": "4e78875f9cbe5615",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 17:00",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 17 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1480,
+        "wires": [
+            [
+                "8ec866e77e6ebf1f"
+            ]
+        ]
+    },
+    {
+        "id": "3b2ac3897ffe9810",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 17:30",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "30 17 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1660,
+        "wires": [
+            [
+                "2a617b542bf1d588"
+            ]
+        ]
+    },
+    {
+        "id": "10ca23b26d24b090",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 9:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 09 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1520,
+        "wires": [
+            [
+                "8ec866e77e6ebf1f"
+            ]
+        ]
+    },
+    {
+        "id": "f7c02156f41babf9",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 11:35",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "35 11 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1060,
+        "y": 1700,
+        "wires": [
+            [
+                "2a617b542bf1d588"
+            ]
+        ]
+    },
+    {
+        "id": "c645595c3924ce43",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 14:00",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 14 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1040,
+        "y": 1560,
+        "wires": [
+            [
+                "8ec866e77e6ebf1f"
+            ]
+        ]
+    },
+    {
+        "id": "27994a38fff267f3",
+        "type": "inject",
+        "z": "04b4f13d99be7319",
+        "name": "at 14:15",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "15 14 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1120,
+        "y": 1760,
+        "wires": [
+            [
+                "2a617b542bf1d588"
             ]
         ]
     }
