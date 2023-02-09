@@ -1,4 +1,10 @@
-# Last update 
+# Last update  9/2565
+
+ปรับ Redesign Flow ใหม่ ให้ user แก้ไข Code น้อยลง
+
+
+เพิ่มเติม ตัวอย่างการตั้งค่า timer ให้ ch3 ของทุกๆบอร์ด (A001-A004)
+
 
 ฝั่ง Simulation
   ใส่ switch เพื่อปิดการจำลองการทำงานของบอร์ด ESP32 
