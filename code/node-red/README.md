@@ -25,7 +25,11 @@
 * node-red-contrib-ui-led         version
 * node-red-contrib-line-notify    version 3.1.3
 
-## การติดตั้งใช้คำสั่ง 
+## การติดตั้ง plugin ใช้คำสั่ง 
 
 * npm install node-red-contrib-ui-led
 * npm install node-red-contrib-line-notify
+
+## การนำเข้า Flow 
+ให้ใช้คำสั่ง import flow
+แล้ววาง code  จากไฟล์ flow.js ลงไป
