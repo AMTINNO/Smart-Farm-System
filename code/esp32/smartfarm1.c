@@ -6,27 +6,35 @@
 #include <DHT.h>                 //add-on DHT sensor
 #include <DHT_U.h>               //universal  dht    
 #define DHTTYPE    DHT11         // DHT 22 (AM2302)
-#define ESP_ID        "001"
-//#define WIFI_STA_NAME "SIAM Hi -Speed"
-#define WIFI_STA_NAME "DSEL208_2G"   // เปลี่ยน WIFI_STA_NAME และ WIFI_STA_PASS ให้ตรงกับ SSID ของ wifi ที่จะเกาะ
-#define WIFI_STA_PASS "piglet1234"   //
-#define MQTT_SERVER   "smartdrive.eazycloud.xyz"   // เปลี่ยนข้อมูลให้ชี้ไปที่ mqtt broker ของท่าน
-#define MQTT_PORT     1883		// เลือกพอร์ตของ MQTT Broker   1883 สำหรับ unsecure connected และ 8883 สำหรับ secure connected
+#define ESP_ID       "004"
+#define WIFI_STA_NAME "SIAM Hi -Speed"  // เปลี่ยน WIFI_STA_NAME และ WIFI_STA_PASS ให้ตรงกับ SSID ของ wifi ที่จะเกาะ
+#define WIFI_STA_PASS ""   
+#define MQTT_SERVER   "smartfarm.eazycloud.xyz"   // เปลี่ยนข้อมูลให้ชี้ไปที่ mqtt broker ของท่าน
+#define MQTT_PORT     1883    // เลือกพอร์ตของ MQTT Broker   1883 สำหรับ unsecure connected และ 8883 สำหรับ secure connected
 #define MQTT_USERNAME "dsel0"         // เปลี่ยน username และ password สำหรับเข้าใช้งาน mqtt ให้ตรงกับของท่าน
 #define MQTT_PASSWORD "piglet1234"    //
-#define MQTT_NAME     "ESP32.xx.yyy"  // เวลาใช้งานให้ใส่ตัวเลขแทน xx ด้วยหมายเลขลำดับรายชื่อของท่าน และ  yyy ด้วยหมายเลขบอร์ด เพื่อป้องกันปัญหาชื่อซ้ำกัน
+#define MQTT_NAME     "ESP32_00_001"  // เวลาใช้งานถ้าเป็น Broker ของท่านเองตั้งอย่างไรก็ได้อย่าให้ซ้ำ 
+                                      // แต่ถ้าจะใช้ของมหาวิทยาลัยเพื่อป้องกันปัญหาชื่อซ้ำกัน 
+                                      // จะใช้รูปแบบ ESP32_xx_yyy ให้ใส่ตัวเลขแทน xx ด้วยหมายเลขลำดับรายชื่อของท่าน และ  yyy ด้วยหมายเลขบอร์ด 
 #define LED_PIN 2
 #define CH1_PIN 25
 #define CH2_PIN 26
 #define CH3_PIN 32
-#define CH4_PIN 33
+#define CH4_PIN 33      //                                    
+#define DHT_PIN 27      //                                   +-+-+-+----->5V
+#define SOIL_PIN 34     //                         +------+  R R R R
+                        //                         |ESP32 |  | | | |
+#define BTN1_PIN 17     // Push button Active Low  |Pin 17|--|-|-|-+--o/ o---> GND
+#define BTN2_PIN 16     // Push button Active Low  |Pin 16|--|-|-+----o/ o---> GND
+#define BTN3_PIN 39     // Push button Active Low  |Pin 39|--|-+------o/ o---> GND
+#define BTN4_PIN 36     // Push button Active Low  |Pin 36|--+--------o/ o---> GND  
+                        //                         +------+
+#define AUTOPLUS true   // AUTOPLUS คือกล่องที่สามารถควบคุมการเปิดปิด ch1-ch4 ได้จากหน้าเครื่อง (ต้องต่อ R 10k pull-up ที่ขา  port และต่อ switch แบบกดติดกดดับ ลงกราวน์) 
+#define AUTO     false  // AUTO คือใช้การเปิดปิดจาก Node-Red ผ่านทาง web หรือมือถือ จะไม่มีปุ่มเปิดปิดหน้าเครื่อง  
+#define MODE     AUTO   // เลือกโหมดตามที่ต้องการ ระหว่าง AUTO หรือ AUTOPLUS
+#define PERIOD   10000
 
-#define DHT_PIN 27
-#define SOIL_PIN 34
-
-#define PERIOD 10000
-
-
+// State Declaration
 #define INI 0
 #define WAITING 1
 #define STAYWAITING 2
@@ -41,14 +49,16 @@
 #define OFFCH3 11
 #define OFFCH4 12
 #define PUBLISH 13
-DynamicJsonDocument doc(1024);
+
 // global varible and set intitial value
+DynamicJsonDocument doc(1024);
 int state=INI;
 int led_status=0;
 int CH1=0;
 int CH2=0;
 int CH3=0;
 int CH4=0;
+int MANU=0;
 float HUMI=20.0;
 float TEMP=27.0;
 int MOIS=32767;
@@ -150,19 +160,25 @@ void setup() {
 
   // put your setup code here, to run once:
   Serial.begin(115200);  // เปิดใช้ Serial port 
+  
   pinMode(LED_PIN, OUTPUT);
   pinMode(CH1_PIN,OUTPUT);
   pinMode(CH2_PIN,OUTPUT);
   pinMode(CH3_PIN,OUTPUT);
   pinMode(CH4_PIN,OUTPUT);
-  
+  if (MODE==AUTOPLUS) {  
+    pinMode(BTN1_PIN,INPUT);
+    pinMode(BTN2_PIN,INPUT);
+    pinMode(BTN3_PIN,INPUT);
+    pinMode(BTN4_PIN,INPUT);
+  }
   Serial.println( "\n");
   Serial.print("Connecting to ");
   Serial.println(WIFI_STA_NAME);
   WiFi.mode(WIFI_STA);
 
   WiFi.begin(WIFI_STA_NAME, WIFI_STA_PASS);
-
+  struct tm my_time;
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -173,8 +189,11 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-  
+  boolean t=true;
+
+  while (!getLocalTime(&my_time)) {
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  }
   printLocalTime();
  
 
@@ -213,18 +232,26 @@ case INI: {
 
             state=WAITING;
             break; }
-case WAITING: { 
-                myTime = millis();
+case WAITING: { myTime = millis();
                 Serial.print("Waiting State ");
                 Serial.print("IP address: ");
                 Serial.println(WiFi.localIP());
                 state=STAYWAITING;
-                delay(500);
                 break;}
 
 case STAYWAITING: {
+                // Push botton for manual Override the system 
+                
+                if (MODE==AUTOPLUS) {
+                    MANU=0;
+                    if (digitalRead(BTN1_PIN)==0) {CH1=1;MANU=MANU+1;digitalWrite(CH1_PIN,ActiveLow[CH1]);};
+                    if (digitalRead(BTN2_PIN)==0) {CH2=1;MANU=MANU+2;digitalWrite(CH2_PIN,ActiveLow[CH2]);};
+                    if (digitalRead(BTN3_PIN)==0) {CH3=1;MANU=MANU+4;digitalWrite(CH3_PIN,ActiveLow[CH3]);};
+                    if (digitalRead(BTN4_PIN)==0) {CH4=1;MANU=MANU+8;digitalWrite(CH4_PIN,ActiveLow[CH4]);};
+                }
+
                 if ((millis()-myTime)>=PERIOD) {state=DHTS;myTime=millis();} 
-                //delay(500);
+                delay(100);
                 break;}
 case DHTS: {
             Serial.println("Reading DHT sensor");
@@ -319,7 +346,7 @@ case OFFCH4: {Serial.println("Turn CH4 Off");
 
 case PUBLISH: {
  String  payload_str ;
-                payload_str="{\"id\":\""+String(ESP_ID,3)+"\",\"temp\":\""+String(TEMP,2)+"\",\"humi\":\""+String(HUMI,2)+"\",\"mois\":\""+String(MOIS)+"\",\"timestamp\":\""+get_time_str()+"\",\"ch1\":\""+String(CH1)+"\",\"ch2\":\""+String(CH2)+"\",\"ch3\":\""+String(CH3)+"\",\"ch4\":\""+String(CH4)+"\",\"message\":\"bye\"}";
+                payload_str="{\"id\":\""+String(ESP_ID,3)+"\",\"temp\":\""+String(TEMP,2)+"\",\"humi\":\""+String(HUMI,2)+"\",\"mois\":\""+String(MOIS)+"\",\"timestamp\":\""+get_time_str()+"\",\"ch1\":\""+String(CH1)+"\",\"ch2\":\""+String(CH2)+"\",\"ch3\":\""+String(CH3)+"\",\"ch4\":\""+String(CH4)+"\",\"RSSI\":\""+String(WiFi.RSSI())+"\"}";
                 
                 char payload[150];
                 payload_str.toCharArray(payload, 150);
