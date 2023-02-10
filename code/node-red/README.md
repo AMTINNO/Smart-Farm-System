@@ -15,3 +15,17 @@
   แก้ไข ค่า ch เปลี่ยนมาใช้ int แทน boolean เนื่องจาก boolean ไม่ได้เป็นชนิดตัวแปรหลักของ Arduino จะได้หลีกเลี่ยงปัญหาในการไม่เข้ากันของ Lib ใน version ที่เก่ากว่า
   เพิ่ม การทำงานแบบอัตโนมัติ ด้วยการตั้งเวลา (อยู่ที่ ch3) 
   
+เพิ่มการแสดงค่ากำลังส่งของ  EPS32
+
+
+## การนำไปใช้
+
+ต้องติดตั้ง Node-red Plug-in ให้ครบถ้วนก่อน
+
+* node-red-contrib-ui-led         version
+* node-red-contrib-line-notify    version 3.1.3
+
+## การติดตั้งใช้คำสั่ง 
+
+* npm install node-red-contrib-ui-led
+* npm install node-red-contrib-line-notify
