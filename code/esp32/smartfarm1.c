@@ -1,14 +1,15 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include "time.h"                // Required for NTP 
-#include <ArduinoJson.h>
+#include "time.h"                //Required for NTP 
+#include <ArduinoJson.h>         //ต้องติดตั้งlib  ArduinoJson ก่อน
 #include <Adafruit_Sensor.h>     //The basedline lib from Adafruit
 #include <DHT.h>                 //add-on DHT sensor
 #include <DHT_U.h>               //universal  dht    
-#define DHTTYPE    DHT11         // DHT 22 (AM2302)
-#define ESP_ID       "004"
-#define WIFI_STA_NAME "SIAM Hi -Speed"  // เปลี่ยน WIFI_STA_NAME และ WIFI_STA_PASS ให้ตรงกับ SSID ของ wifi ที่จะเกาะ
-#define WIFI_STA_PASS ""   
+#define DHTTYPE    DHT11         // ถ้าใช้ DHT22 ก็ตั้งเป็น DHT22
+#define ESP_ID     "004"         //<--หมายเลขประจำบอร์ด 
+//#define WIFI_STA_NAME "SIAM Hi -Speed"  // เปลี่ยน WIFI_STA_NAME และ WIFI_STA_PASS ให้ตรงกับ SSID ของ wifi ที่จะเกาะ
+#define WIFI_STA_NAME "DSEL208_2G"
+#define WIFI_STA_PASS "piglet1234"   
 #define MQTT_SERVER   "smartfarm.eazycloud.xyz"   // เปลี่ยนข้อมูลให้ชี้ไปที่ mqtt broker ของท่าน
 #define MQTT_PORT     1883    // เลือกพอร์ตของ MQTT Broker   1883 สำหรับ unsecure connected และ 8883 สำหรับ secure connected
 #define MQTT_USERNAME "dsel0"         // เปลี่ยน username และ password สำหรับเข้าใช้งาน mqtt ให้ตรงกับของท่าน
@@ -31,9 +32,14 @@
                         //                         +------+
 #define AUTOPLUS true   // AUTOPLUS คือกล่องที่สามารถควบคุมการเปิดปิด ch1-ch4 ได้จากหน้าเครื่อง (ต้องต่อ R 10k pull-up ที่ขา  port และต่อ switch แบบกดติดกดดับ ลงกราวน์) 
 #define AUTO     false  // AUTO คือใช้การเปิดปิดจาก Node-Red ผ่านทาง web หรือมือถือ จะไม่มีปุ่มเปิดปิดหน้าเครื่อง  
-#define MODE     AUTO   // เลือกโหมดตามที่ต้องการ ระหว่าง AUTO หรือ AUTOPLUS
-#define PERIOD   10000
+#define MODE     AUTO   // <--เลือกโหมดตามที่ต้องการ ระหว่าง AUTO หรือ AUTOPLUS
+#define PERIOD   10000  // <--ตั้งค่าเวลารอทำกิจกรรมครั้งถัดไป 10 วินาที
 
+#define WATCHDOG_TIMEOUT_S 300      // จับเวลา 5 นาที (300sec) ถ้า ESP ไม่มารีเซตค่าเวลานี้ ปล่อยให้นับครบ 5 นาที  Watchdog จะสั่งรีเซตESP 
+
+                         // Set timeout for watchdog 
+#define WDE true         //<--watchdog enable เลือกระหว่าง true เพื่อเปิดใช้งาน  watchdog
+//                          หรือ false ถ้าไม่ต้องการเปิดใช้งาน  
 // State Declaration
 #define INI 0
 #define WAITING 1
@@ -71,8 +77,21 @@ const int   daylightOffset_sec = 0;        // There is no Daylight saving time i
 unsigned long myTime; 
 WiFiClient client;                  // ใช้ lib WIFI
 PubSubClient mqtt(client);          // ใช้ lib mqtt
-
 DHT_Unified dht(DHT_PIN, DHTTYPE);   // เซต ตัวเซนเซอร์
+
+// Watch dog 
+
+hw_timer_t * watchDogTimer = NULL;     //ประกาศตัวแปรจับเวลาให้ watchdog  
+void IRAM_ATTR watchDogInterrupt() {   // reboot by watchdog
+  Serial.println("reboot by watchdog!");
+  ESP.restart();
+}
+
+void watchDogRefresh()
+{
+  timerWrite(watchDogTimer, 0);                    //reset timer (feed watchdog)
+}
+
 
 void printLocalTime()   //for display
 {
@@ -201,13 +220,21 @@ void setup() {
   mqtt.setServer(MQTT_SERVER, MQTT_PORT);   // connect to mqtt broker
   mqtt.setCallback(callback);               // set service for sub
   state=INI;
-
+  if (WDE) {
+    watchDogTimer = timerBegin(2, 80, true);
+    timerAttachInterrupt(watchDogTimer, &watchDogInterrupt, true);
+    timerAlarmWrite(watchDogTimer, WATCHDOG_TIMEOUT_S * 1000000, false);
+    timerAlarmEnable(watchDogTimer);
+  }
 
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (WDE) {
+    watchDogRefresh();
+  }
   digitalWrite(LED_PIN,led_status);
   led_status=!led_status;
   delay(500);
