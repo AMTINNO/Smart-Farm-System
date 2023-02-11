@@ -14,8 +14,11 @@ node-red-admin hash-pw
 cd ~/.node-red
 sudo nano setting.js
 ```
-เลือนไปแก้ไข 
+เลือนไปแก้ไขบรรทัด  httpNodeAuth และ  httpStaticAuth ด้วยการแก้ไข username(ตั้งชื่อที่จะใช้ login) และ password(ที่เตรียมไว้) ดังรูป
+
 ![image](https://user-images.githubusercontent.com/37249027/218268985-58b7e759-c354-40f5-a621-1cbb93481d6d.png)
+
+บันทึก แล้ว เริ่ม node-red ใหม่อีกครั้ง
 
 
 # Last update 11 กพ 2565
