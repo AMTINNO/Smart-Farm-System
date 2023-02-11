@@ -1,3 +1,23 @@
+# การป้องกันหน้า Dashboard Ui ของ node-red
+
+สามารถทำได้ด้วยการแก้ไขไฟล์ setting.js 
+โดยให้เตรียม สร้างรหัสผ่านด้วยคำสั่ง 
+
+```
+node-red-admin hash-pw
+```
+ระบุ password ที่ต้องการลงไป  ระบบจะแปลง password ที่ผ่านการเข้ารหัสแล้วออกมาให้
+ให้ copy เก็บไว้ก่อน
+จากนั้นให้เข้าไปที่เก็บ node-red ด้วยคำสั่ง cd แล้ว sudo nano settting.js
+
+```
+cd ~/.node-red
+sudo nano setting.js
+```
+เลือนไปแก้ไข 
+![image](https://user-images.githubusercontent.com/37249027/218268985-58b7e759-c354-40f5-a621-1cbb93481d6d.png)
+
+
 # Last update 11 กพ 2565
 เพิ่มการแสดงค่าความแรงสัญญาณ WiFi (RSSI) ของ ESP32 
 
