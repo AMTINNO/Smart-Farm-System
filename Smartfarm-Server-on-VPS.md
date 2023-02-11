@@ -3,3 +3,6 @@
 # On Virtual Private Server: 
 # Smart Farm Server Installation 
 # (คู่มือฉบับย่อ)
+November 20 ![image](https://user-images.githubusercontent.com/37249027/218273504-f589e290-0608-45a8-902a-a9ecec704975.png)
+Tawan Phurat
+Siam University
