@@ -8,7 +8,7 @@ node-red-admin hash-pw
 ```
 ระบุ password ที่ต้องการลงไป  ระบบจะแปลง password ที่ผ่านการเข้ารหัสแล้วออกมาให้
 ให้ copy เก็บไว้ก่อน
-จากนั้นให้เข้าไปที่เก็บ node-red ด้วยคำสั่ง cd แล้ว sudo nano settting.js
+จากนั้นให้เข้าไปที่เก็บ node-red ด้วยคำสั่ง cd แล้ว sudo nano settting.js ดังต่อไปนี้
 
 ```
 cd ~/.node-red
