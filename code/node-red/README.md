@@ -1,6 +1,9 @@
-# Last update  11/2565
+# Last update 11 กพ 2565
+เพิ่มการแสดงค่าความแรงสัญญาณ WiFi (RSSI) ของ ESP32 
 
-ปรับ Redesign Flow ใหม่ ให้ user แก้ไข Code น้อยลง
+# update 2/10/2565
+
+ปรับ Redesign Flow ใหม่ ให้มีจุดที่ user ต้องเข้าไปแก้ไข Code น้อยลง
 
 
 เพิ่มเติม ตัวอย่างการตั้งค่า timer ให้ ch3 ของทุกๆบอร์ด (A001-A004)
