@@ -7,6 +7,5 @@
   Tawan Phurat 
   
 |---------------|------------|  
-|  Siam University    Digital System Engineering Lab    Authored by: Tawan Phurat     Version 1.01      | ![image](https://user-images.githubusercontent.com/37249027/218273504-f589e290-0608-45a8-902a-a9ecec704975.png) |
-| Digital System Engineering Lab |                                                                                                    |
+|  Siam University  <br>  Digital System Engineering Lab <br>   Authored by: Tawan Phurat  <br>   Version 1.01      | ![image](https://user-images.githubusercontent.com/37249027/218273504-f589e290-0608-45a8-902a-a9ecec704975.png) |                                       |
 |---------------|-------------|
