@@ -9,3 +9,6 @@
  | Siam University <br> Digital System Engineering Lab <br>  Authored by Tawan Phurat <br> Version 1.01 | ![image](https://user-images.githubusercontent.com/37249027/218273504-f589e290-0608-45a8-902a-a9ecec704975.png)  |
 | -------- | -------- |
 
+*** โน๊ต ***  กรณีที่ใช้ VPS ของผู้ให้บริการที่ติดตั้งระบบปฎิบัติการ linux (Ubuntu) server มาให้แล้ว สามารถดำเนินการต่อได้ทันที แต่ถ้าไม่ใช่กรณีนี้เช่น ต้องการลงระบบปฏิบัติการ linux server เองให้ไปดูในเอกสารเรื่องนี้โดยเฉพาะแล้วค่่อยกลับมาทำขั้นตอนต่อไป
+
+
