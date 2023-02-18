@@ -13,8 +13,7 @@
 | ![image](https://user-images.githubusercontent.com/37249027/219899900-5cbf238b-282d-4a11-a07d-d19354315b3e.png) |
 |---|
 <div>
-<p style="text-align: center;">รูปที่ 1 ระบบสมาร์ทฟาร์ม</p>
-</div>
+<p style="text-align: center;"><br>รูปที่ 1 ระบบสมาร์ทฟาร์ม</br></p> </div>
 <h3 style="text-align: center;">H3 that is center aligned</h3>
 
 **หมายเหตุ**  กรณีที่ใช้ VPS ของผู้ให้บริการที่ติดตั้งระบบปฎิบัติการ linux (Ubuntu) server มาให้แล้ว สามารถดำเนินการต่อได้ทันที แต่ถ้าไม่ใช่กรณีนี้เช่น ต้องการลงระบบปฏิบัติการ linux server เองให้ไปดูในเอกสารเรื่องนี้โดยเฉพาะแล้วค่่อยกลับมาทำขั้นตอนต่อไป
