@@ -14,7 +14,7 @@
 | ![image](https://user-images.githubusercontent.com/37249027/219899900-5cbf238b-282d-4a11-a07d-d19354315b3e.png) |
 |---|
 รูปที่ 1 ระบบสมาร์ทฟาร์ม
-
+|---|
 
 
 
