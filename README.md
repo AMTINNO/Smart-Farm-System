@@ -1,4 +1,4 @@
-# Smartfarming-Non-Degree
+# Smartfarming-System
 รวมเอกสาร code ฯลฯ ของหลักสูตร การจัดการสวนเกษตรอัจฉริยะ 
 
 ## บทนำ
